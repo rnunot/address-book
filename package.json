@@ -6,6 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "prettier:check": "prettier \"**/*.{vue,scss,sass,js,json}\" --list-different",
+    "prettier:format-all": "prettier --write \"**/*.{vue,scss,sass,js,json}\"",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },

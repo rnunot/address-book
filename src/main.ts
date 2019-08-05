@@ -2,7 +2,9 @@ import Vue from 'vue';
 import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
-import '@/registerServiceWorker';
+import '@/misc/registerServiceWorker';
+import '@/misc/handleNetworkStatus';
+import '@/misc/handleAppleInstallPrompt';
 import '@/assets/scss/tailwind.scss';
 
 Vue.config.productionTip = false;
