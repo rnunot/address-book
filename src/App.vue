@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <nav-bar />
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -25,9 +26,10 @@ import Vue from 'vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
 import NewContentAvailableToastr from '@/components/pwa/NewContentAvailableToastr.vue';
 import AppleAddToHomeScreenModal from '@/components/pwa/AppleAddToHomeScreenModal.vue';
+import NavBar from '@/components/NavBar.vue';
 
 export default Vue.extend({
-  components: { NewContentAvailableToastr, AppleAddToHomeScreenModal },
+  components: { NavBar, NewContentAvailableToastr, AppleAddToHomeScreenModal },
   computed: {
     ...mapGetters('app', ['newContentAvailable']),
     ...mapState('app', ['showAddToHomeScreenModalForApple', 'refreshingApp']),
