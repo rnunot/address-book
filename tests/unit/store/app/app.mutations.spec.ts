@@ -10,6 +10,7 @@ describe('app module mutation', () => {
         SWRegistrationForNewContent: undefined,
         showAddToHomeScreenModalForApple: false,
         refreshingApp: false,
+        isSideMenuOpen: false,
       };
 
       mutations.setNetworkOnline(state, true);
@@ -21,6 +22,7 @@ describe('app module mutation', () => {
         SWRegistrationForNewContent: undefined,
         showAddToHomeScreenModalForApple: false,
         refreshingApp: false,
+        isSideMenuOpen: false,
       });
     });
   });
@@ -34,6 +36,7 @@ describe('app module mutation', () => {
         SWRegistrationForNewContent: undefined,
         showAddToHomeScreenModalForApple: false,
         refreshingApp: false,
+        isSideMenuOpen: false,
       };
       const newSW = { id: 'sw' };
 
@@ -46,6 +49,7 @@ describe('app module mutation', () => {
         SWRegistrationForNewContent: newSW,
         showAddToHomeScreenModalForApple: false,
         refreshingApp: false,
+        isSideMenuOpen: false,
       });
     });
   });
@@ -59,6 +63,7 @@ describe('app module mutation', () => {
         SWRegistrationForNewContent: undefined,
         showAddToHomeScreenModalForApple: false,
         refreshingApp: false,
+        isSideMenuOpen: false,
       };
 
       mutations.setShowAddToHomeScreenModalForApple(state, true);
@@ -70,11 +75,12 @@ describe('app module mutation', () => {
         SWRegistrationForNewContent: undefined,
         showAddToHomeScreenModalForApple: true,
         refreshingApp: false,
+        isSideMenuOpen: false,
       });
     });
   });
 
-  describe('refreshingApp', () => {
+  describe('setRefreshingApp', () => {
     it('should set refreshingApp state to the value given in parameter', () => {
       const state = {
         appTitle: '',
@@ -83,6 +89,7 @@ describe('app module mutation', () => {
         SWRegistrationForNewContent: undefined,
         showAddToHomeScreenModalForApple: false,
         refreshingApp: false,
+        isSideMenuOpen: false,
       };
 
       mutations.setRefreshingApp(state, true);
@@ -94,6 +101,33 @@ describe('app module mutation', () => {
         SWRegistrationForNewContent: undefined,
         showAddToHomeScreenModalForApple: false,
         refreshingApp: true,
+        isSideMenuOpen: false,
+      });
+    });
+  });
+
+  describe('setIsSideMenuOpen', () => {
+    it('should set isSideMenuOpen state to the value given in parameter', () => {
+      const state = {
+        appTitle: '',
+        appShortTitle: '',
+        networkOnLine: false,
+        SWRegistrationForNewContent: undefined,
+        showAddToHomeScreenModalForApple: false,
+        refreshingApp: false,
+        isSideMenuOpen: false,
+      };
+
+      mutations.setIsSideMenuOpen(state, true);
+
+      expect(state).toEqual({
+        appTitle: '',
+        appShortTitle: '',
+        networkOnLine: false,
+        SWRegistrationForNewContent: undefined,
+        showAddToHomeScreenModalForApple: false,
+        refreshingApp: false,
+        isSideMenuOpen: true,
       });
     });
   });

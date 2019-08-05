@@ -24,4 +24,8 @@ export default {
     commit('setRefreshingApp', true);
     serviceWorker.waiting!.postMessage('skipWaiting');
   },
+
+  toggleSideMenu({ state, commit }) {
+    commit('setIsSideMenuOpen', !state.isSideMenuOpen);
+  },
 } as ActionTree<AppState, RootState>;

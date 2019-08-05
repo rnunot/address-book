@@ -5,4 +5,5 @@ export interface AppState {
   SWRegistrationForNewContent?: ServiceWorkerRegistration;
   showAddToHomeScreenModalForApple: boolean;
   refreshingApp: boolean;
+  isSideMenuOpen: boolean;
 }

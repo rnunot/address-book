@@ -7,4 +7,5 @@ export default {
   SWRegistrationForNewContent: undefined,
   showAddToHomeScreenModalForApple: false,
   refreshingApp: false,
+  isSideMenuOpen: window.innerWidth > 768,
 } as AppState;

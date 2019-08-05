@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <nav-bar />
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <app-bar />
+
+    <div class="flex">
+      <side-menu />
+      <router-view />
     </div>
-    <router-view />
 
     <new-content-available-toastr
       v-if="newContentAvailable"
@@ -26,10 +26,16 @@ import Vue from 'vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
 import NewContentAvailableToastr from '@/components/pwa/NewContentAvailableToastr.vue';
 import AppleAddToHomeScreenModal from '@/components/pwa/AppleAddToHomeScreenModal.vue';
-import NavBar from '@/components/NavBar.vue';
+import AppBar from '@/components/AppBar.vue';
+import SideMenu from '@/components/SideMenu.vue';
 
 export default Vue.extend({
-  components: { NavBar, NewContentAvailableToastr, AppleAddToHomeScreenModal },
+  components: {
+    AppBar,
+    NewContentAvailableToastr,
+    AppleAddToHomeScreenModal,
+    SideMenu,
+  },
   computed: {
     ...mapGetters('app', ['newContentAvailable']),
     ...mapState('app', ['showAddToHomeScreenModalForApple', 'refreshingApp']),
@@ -42,24 +48,6 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-
 .new-content-available-toastr {
   position: absolute;
   bottom: 10px;
