@@ -1,10 +1,15 @@
 <template>
-  <div id="app">
+  <div id="app" class="min-h-screen">
     <app-bar />
 
     <div class="flex">
       <side-menu />
-      <router-view />
+      <div
+        :class="{ 'app__container--open': isSideMenuOpen }"
+        class="app__container"
+      >
+        <router-view />
+      </div>
     </div>
 
     <new-content-available-toastr
@@ -38,7 +43,11 @@ export default Vue.extend({
   },
   computed: {
     ...mapGetters('app', ['newContentAvailable']),
-    ...mapState('app', ['showAddToHomeScreenModalForApple', 'refreshingApp']),
+    ...mapState('app', [
+      'showAddToHomeScreenModalForApple',
+      'refreshingApp',
+      'isSideMenuOpen',
+    ]),
   },
   methods: mapActions('app', [
     'closeAddToHomeScreenModalForApple',
@@ -48,6 +57,16 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+.app__container {
+  &--open {
+    @screen md {
+      padding-left: 280px;
+    }
+  }
+
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .new-content-available-toastr {
   position: absolute;
   bottom: 10px;
