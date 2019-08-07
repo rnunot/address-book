@@ -17,15 +17,15 @@
         class="login__button"
         type="button"
       >
-        Log In
+        Sign Up
       </button>
       <div class="mt-6 text-gray-700">
-        Don't have an account?
+        Already have an account?
         <router-link
           class="text-purple-900 hover:text-purple-800 hover:text-underline"
-          to="/register"
+          to="/login"
         >
-          Sign Up here
+          Log in here
         </router-link>
       </div>
     </form>
@@ -37,7 +37,7 @@ import Vue from 'vue';
 import LoginLayout from '@/components/layouts/LoginLayout.vue';
 
 export default Vue.extend({
-  name: 'Login',
+  name: 'SignUp',
 
   components: { LoginLayout },
 });

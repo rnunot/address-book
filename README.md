@@ -35,5 +35,15 @@ yarn run test:e2e
 yarn run test:unit
 ```
 
+### Run prettier check format
+```
+yarn run prettier:check
+```
+
+### Format all files with prettier
+```
+yarn run prettier:format-all
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
