@@ -13,10 +13,7 @@
         </label>
         <input id="password" type="password" class="login__input" />
       </div>
-      <button
-        class="login__button"
-        type="button"
-      >
+      <button class="login__button" type="button">
         Log In
       </button>
       <div class="mt-6 text-gray-700">
