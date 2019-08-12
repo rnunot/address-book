@@ -1,12 +1,6 @@
 <template>
-  <div id="app">
-    <app-bar />
-
-    <div class="flex">
-      <side-menu />
-      <router-view />
-    </div>
-
+  <div id="app" class="min-h-screen">
+    <router-view />
     <new-content-available-toastr
       v-if="newContentAvailable"
       class="new-content-available-toastr"
@@ -26,15 +20,11 @@ import Vue from 'vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
 import NewContentAvailableToastr from '@/components/pwa/NewContentAvailableToastr.vue';
 import AppleAddToHomeScreenModal from '@/components/pwa/AppleAddToHomeScreenModal.vue';
-import AppBar from '@/components/AppBar.vue';
-import SideMenu from '@/components/SideMenu.vue';
 
 export default Vue.extend({
   components: {
-    AppBar,
     NewContentAvailableToastr,
     AppleAddToHomeScreenModal,
-    SideMenu,
   },
   computed: {
     ...mapGetters('app', ['newContentAvailable']),
@@ -53,6 +43,7 @@ export default Vue.extend({
   bottom: 10px;
   right: 10px;
 }
+
 .apple-add-to-home-screen-modal {
   position: absolute;
   bottom: 0;
