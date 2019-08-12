@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "prettier:check": "prettier \"**/*.{vue,scss,sass,js,json}\" --list-different",
-    "prettier:format-all": "prettier --write \"**/*.{vue,scss,sass,js,json}\"",
+    "prettier:format-all": "prettier --write \"**/*.{vue,scss,sass,js,ts,json}\"",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -16,6 +16,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.10.1",
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "@vue/eslint-config-airbnb": "^4.0.1",
+    "axios": "^0.19.0",
     "core-js": "^2.6.5",
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",

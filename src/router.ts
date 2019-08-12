@@ -1,10 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import store from '@/store';
 import Home from '@/views/Home.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -27,6 +28,9 @@ export default new Router({
             import(/* webpackChunkName: "about" */ '@/views/About.vue'),
         },
       ],
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/login',
@@ -38,7 +42,21 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: () =>
-        import(/* webpackChunkName: "register" */ '@/views/SignUp.vue'),
+        import(/* webpackChunkName: "signup" */ '@/views/SignUp.vue'),
     },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !store.getters['auth/isUserLoggedIn']) {
+    const path = !store.getters['auth/isUserLoggedIn']
+      ? '/login'
+      : '/check-login';
+
+    return next(`${path}?redirectUrl=${to.path}`);
+  }
+
+  next();
+});
+
+export default router;
