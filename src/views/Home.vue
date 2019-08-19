@@ -1,18 +1,17 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <div class="pt-5">
+    <contacts-table />
+    <create-contact-modal />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue';
+import ContactsTable from '@/components/contacts/ContactsTable.vue';
+import CreateContactModal from '@/components/contacts/CreateContactModal.vue';
 
 export default Vue.extend({
   name: 'Home',
-  components: {
-    HelloWorld,
-  },
+  components: { ContactsTable, CreateContactModal },
 });
 </script>

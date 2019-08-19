@@ -33,6 +33,8 @@ export default Vue.extend({
   @apply bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full
   py-2 px-4 text-gray-700 leading-tight;
 
+  transition: all 0.25s;
+
   &:focus {
     @apply outline-none bg-white border-purple-500;
   }
@@ -40,6 +42,13 @@ export default Vue.extend({
 
 .login__label {
   @apply block text-gray-700 font-bold mb-1;
+}
+
+.login__link {
+  @apply text-purple-900;
+  &:hover {
+    @apply text-purple-800 underline;
+  }
 }
 
 .login__button {

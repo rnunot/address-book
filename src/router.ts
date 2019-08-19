@@ -21,12 +21,6 @@ const router = new Router({
           name: 'home',
           component: Home,
         },
-        {
-          path: '/about',
-          name: 'about',
-          component: () =>
-            import(/* webpackChunkName: "about" */ '@/views/About.vue'),
-        },
       ],
       meta: {
         requiresAuth: true,
@@ -39,16 +33,23 @@ const router = new Router({
         import(/* webpackChunkName: "login" */ '@/views/Login.vue'),
     },
     {
-      path: '/register',
-      name: 'register',
+      path: '/signup',
+      name: 'signup',
       component: () =>
         import(/* webpackChunkName: "signup" */ '@/views/SignUp.vue'),
+    },
+    {
+      path: '*',
+      redirect: '/',
     },
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !store.getters['auth/isUserLoggedIn']) {
+  if (
+    to.matched.some(route => route.meta.requiresAuth) &&
+    !store.getters['auth/isUserLoggedIn']
+  ) {
     const path = !store.getters['auth/isUserLoggedIn']
       ? '/login'
       : '/check-login';

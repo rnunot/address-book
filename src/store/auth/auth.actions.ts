@@ -2,23 +2,45 @@ import { ActionTree } from 'vuex';
 import { RootState } from '@/store/types';
 import { AuthState } from '@/store/auth/types';
 import router from '@/router';
+import addressBookService from '@/services/addressBook.service';
+
+const sessionKey = 'address-book-session';
 
 export default {
-  login: async ({ commit, dispatch }, firebaseAuthUser) => {
-    const usersService = { getUser() {} };
-    const user = await usersService.getUser();
-
-    commit('setUser', user);
-    dispatch('products/getUserProducts', null, { root: true });
+  register(context, { username, password }) {
+    return addressBookService.create(username, password);
   },
 
-  logout: ({ commit }) => {
-    commit('setUser', null);
-    commit('products/setProducts', null, { root: true });
+  async login({ commit, dispatch }, { username, password }) {
+    const addressBook = await addressBookService.login(username, password);
 
-    const currentRouter = router.app.$route;
-    if (!(currentRouter.meta && currentRouter.meta.authNotRequired)) {
-      router.push('/login');
-    }
+    const session = {
+      id: addressBook.id,
+      username: addressBook.username,
+    };
+
+    commit('setSession', session);
+
+    localStorage.setItem(sessionKey, JSON.stringify(session));
+    dispatch('contacts/storeContacts', addressBook.contacts, { root: true });
+    dispatch('groups/storeGroups', addressBook.groups, { root: true });
+  },
+
+  logout({ commit }) {
+    commit('setSession', undefined);
+    localStorage.removeItem(sessionKey);
+
+    router.push('/login');
+  },
+
+  init: {
+    root: true,
+    handler({ commit }) {
+      const session = JSON.parse(localStorage.getItem(sessionKey) || 'null');
+
+      if (session) {
+        commit('setSession', session);
+      }
+    },
   },
 } as ActionTree<AuthState, RootState>;
