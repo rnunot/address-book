@@ -2,20 +2,74 @@ import { ActionTree } from 'vuex';
 import { RootState } from '@/store/types';
 import { Group, GroupsState } from '@/store/groups/types';
 import db from '@/db';
+import groupService from '@/services/group.service';
 
-export default {
-  add({ commit }, group = { name: 'name' }) {
-    const oldId = `temp-${Date.now()}`;
+const actions: ActionTree<GroupsState, RootState> = {
+  async saveGroup({ dispatch, getters }, group: Group) {
+    return group.id
+      ? dispatch('updateGroup', group)
+      : dispatch('addGroup', group);
+  },
 
-    commit('addGroup', { ...group, id: oldId });
-    const newGroup = { id: Date.now(), name: 'group' };
+  async addGroup({ commit, dispatch, rootGetters }, group: Group) {
+    group.id = `group-${Date.now()}`;
 
-    setTimeout(() => {
-      commit('updateGroupId', {
-        oldId,
-        group: newGroup,
-      });
-    }, 1000);
+    await (await db).add('groups', group);
+
+    commit('addGroup', group);
+    try {
+      await groupService.create(rootGetters['auth/addressBookId'], group);
+    } catch (e) {
+      /* @todo: show error notification */
+      dispatch('rollBackCreate', group);
+    }
+  },
+
+  async rollBackCreate({ commit }, group: Group) {
+    await (await db).delete('groups', group.id);
+    commit('deleteGroup', group);
+  },
+
+  async updateGroup({ commit, dispatch, getters, rootGetters }, group) {
+    const originalGroup = getters.groupById(group.id);
+
+    await (await db).put('groups', group);
+    commit('updateGroup', group);
+
+    try {
+      await groupService.update(rootGetters['auth/addressBookId'], group);
+    } catch (e) {
+      dispatch('rollBackUpdate', originalGroup);
+      throw e;
+    }
+  },
+
+  async rollBackUpdate({ commit }, originalGroup: Group) {
+    await (await db).put('groups', originalGroup);
+
+    commit('updateGroup', {
+      id: originalGroup.id,
+      contact: originalGroup,
+    });
+  },
+
+  async deleteGroup({ commit, dispatch, getters, rootGetters }, group: Group) {
+    await (await db).delete('groups', group.id);
+    commit('deleteGroup', group);
+
+    try {
+      await groupService.delete(rootGetters['auth/addressBookId'], group);
+    } catch (e) {
+      /* @todo: show error notification */
+      dispatch('rollBackDelete', group);
+      throw e;
+    }
+  },
+
+  async rollBackDelete({ commit }, originalGroup: Group) {
+    await (await db).put('groups', originalGroup);
+
+    commit('addGroup', originalGroup);
   },
 
   selectGroup({ commit }, groupId?: string) {
@@ -26,6 +80,7 @@ export default {
     commit('storeGroups', groups);
 
     const tx = (await db).transaction('groups', 'readwrite');
+    tx.store.clear();
     groups.forEach(group => {
       tx.store.put(group);
     });
@@ -51,4 +106,6 @@ export default {
       commit('setLoading', false);
     },
   },
-} as ActionTree<GroupsState, RootState>;
+};
+
+export default actions;

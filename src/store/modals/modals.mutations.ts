@@ -1,8 +1,26 @@
 import { MutationTree } from 'vuex';
 import { ModalsState } from '@/store/modals/types';
+import { Contact } from '@/store/contacts/types';
 
-export default {
-  setIsCreateContactModalOpen(state, value) {
-    state.isCreateContactModalOpen = value;
+const mutations: MutationTree<ModalsState> = {
+  setIsContactModalOpen(state, value: boolean) {
+    state.isContactModalOpen = value;
   },
-} as MutationTree<ModalsState>;
+
+  setIsViewContactModalOpen(state, value: boolean) {
+    state.isViewContactModalOpen = value;
+  },
+  setContactModalModelId(state, value: Contact['id']) {
+    state.contactModalModelId = value;
+  },
+
+  setIsGroupModalOpen(state, value: boolean) {
+    state.isGroupModalOpen = value;
+  },
+
+  setIsChangePasswordModal(state, value: boolean) {
+    state.isChangePasswordModalOpen = value;
+  },
+};
+
+export default mutations;

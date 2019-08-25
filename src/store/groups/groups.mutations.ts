@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { MutationTree } from 'vuex';
 import { Group, GroupMap, GroupsState } from '@/store/groups/types';
 
-export default {
+const mutations: MutationTree<GroupsState> = {
   storeGroups(state, groups: Group[]) {
     state.groups = groups.reduce(
       (acc, group) => {
@@ -15,12 +15,11 @@ export default {
   addGroup(state, group: Group) {
     Vue.set(state.groups, group.id, group);
   },
-  updateGroupId(state, { oldId, group }: { oldId: string; group: Group }) {
-    Vue.delete(state.groups, oldId);
-    Vue.set(state.groups, group.id, group);
-  },
   deleteGroup(state, group: Group) {
     Vue.delete(state.groups, group.id);
+  },
+  updateGroup(state, group: Group) {
+    state.groups[group.id] = group;
   },
   setLoading(state, value: boolean) {
     state.isLoading = value;
@@ -28,4 +27,6 @@ export default {
   setSelectedGroupId(state, value?: string) {
     state.selectedGroupId = value;
   },
-} as MutationTree<GroupsState>;
+};
+
+export default mutations;

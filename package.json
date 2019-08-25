@@ -1,5 +1,5 @@
 {
-  "name": "take-home",
+  "name": "address-book",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,17 +15,22 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.21",
     "@fortawesome/free-solid-svg-icons": "^5.10.1",
     "@fortawesome/vue-fontawesome": "^0.1.6",
+    "@types/lodash": "^4.14.137",
     "@vue/eslint-config-airbnb": "^4.0.1",
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
     "idb": "^4.0.4",
+    "lodash": "^4.17.15",
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
+    "vue-select": "^3.1.0",
+    "vuejs-dialog": "^1.4.1",
     "vuelidate": "^0.7.4",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^1.2.0",
     "@types/jest": "^23.1.4",
     "@types/node": "^12.6.9",
     "@vue/cli-plugin-babel": "^3.10.0",

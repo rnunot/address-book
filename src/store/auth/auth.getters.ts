@@ -2,6 +2,10 @@ import { GetterTree } from 'vuex';
 import { RootState } from '@/store/types';
 import { AuthState } from '@/store/auth/types';
 
-export default {
+const getters: GetterTree<AuthState, RootState> = {
   isUserLoggedIn: state => !!state.addressBook,
-} as GetterTree<AuthState, RootState>;
+  addressBookId: state => state.addressBook && state.addressBook.id,
+  username: state => state.addressBook && state.addressBook.username,
+};
+
+export default getters;

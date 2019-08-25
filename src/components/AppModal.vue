@@ -2,12 +2,13 @@
   <transition name="modal-fade">
     <div class="app-modal__backdrop" @click.self="close">
       <div
+        :class="{ 'app-modal--mobile-fullscreen': mobileFullScreen }"
         class="app-modal"
         role="dialog"
-        aria-labelledby="modalTitle"
-        aria-describedby="modalDescription"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
       >
-        <header id="modalTitle" class="app-modal__header">
+        <header id="modal-title" class="app-modal__header">
           <div class="flex-1">
             <slot name="header" />
           </div>
@@ -21,10 +22,10 @@
             <font-awesome-icon icon="times" size="lg" />
           </button>
         </header>
-        <section id="modalDescription" class="app-modal__body">
+        <section id="modal-description" class="app-modal__body">
           <slot name="body" />
         </section>
-        <footer class="app-modal__footer">
+        <footer v-if="$slots.footer" class="app-modal__footer">
           <slot name="footer" />
         </footer>
       </div>
@@ -56,6 +57,7 @@ export default Vue.extend({
   methods: {
     handleEscKey(event: KeyboardEvent) {
       if (event.key === 'Escape') {
+        event.stopImmediatePropagation();
         this.close();
       }
     },
@@ -74,16 +76,28 @@ export default Vue.extend({
 }
 
 .app-modal {
-  @apply flex flex-col shadow-lg bg-white fixed inset-0 overflow-x-auto rounded;
+  @apply flex flex-col shadow-lg bg-white fixed w-full max-w-sm overflow-x-auto rounded max-h-screen;
+
+  &--mobile-fullscreen {
+    @apply inset-0 max-w-full;
+  }
 
   @screen md {
-    @apply fixed inset-auto w-full max-w-3xl;
+    @apply inset-auto w-full max-w-3xl;
   }
 }
 
 .app-modal__header,
 .app-modal__footer {
-  @apply p-5 flex;
+  @apply py-3 px-5 flex;
+
+  @screen md {
+    @apply py-4;
+  }
+
+  @screen xl {
+    @apply p-6;
+  }
 }
 
 .app-modal__header {
@@ -95,7 +109,11 @@ export default Vue.extend({
 }
 
 .app-modal__body {
-  @apply p-5 flex-1;
+  @apply p-5 flex-1 overflow-y-auto;
+
+  @screen xl {
+    @apply p-6;
+  }
 }
 
 .app-modal__close-button {

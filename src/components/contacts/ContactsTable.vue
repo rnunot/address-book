@@ -1,58 +1,74 @@
 <template>
-  <div class="px-5">
+  <div class="p-5">
     <table class="w-full">
       <thead>
         <tr class="border-b">
-          <th class="md:w-1/3">Name</th>
-          <th class="hidden md:table-cell md:w-1/3">Phone</th>
-          <th class="hidden md:table-cell md:w-1/3">Group</th>
+          <th class="md:w-1/2 lg:w-1/3">Name</th>
+          <th class="hidden md:table-cell md:w-1/2 lg:w-1/3">Phone</th>
+          <th class="hidden lg:table-cell lg:w-1/3">Group</th>
         </tr>
       </thead>
-      <tbody>
+      <transition-group name="table-fade" tag="tbody">
         <tr
           v-for="contact in contacts"
-          :key="contact.name"
+          :key="contact.id"
           class="hover:bg-purple-100 cursor-pointer"
           @click="showDetails(contact)"
         >
-          <td>
-            <img
-              :src="contact.pictureUrl"
-              :alt="contact.name"
-              class="h-12 w-12 rounded-full object-cover inline mr-2"
-            />
-            {{ contact.name }}
+          <td class="truncate">
+            <div class="table table-fixed w-full truncate">
+              <div class="flex items-center">
+                <app-img-loader
+                  :src="contact.pictureUrl"
+                  :placeholder-src="contactImgPlaceholder"
+                  alt=""
+                  class="h-12 w-12 rounded-full object-cover inline mr-2"
+                />
+                <div class="truncate">
+                  {{ contact.name }}
+                </div>
+              </div>
+            </div>
           </td>
-          <td class="hidden md:table-cell">{{ contact.phone }}</td>
           <td class="hidden md:table-cell">
-            {{ getGroupName(contact.groupId) }}
+            <div class="table table-fixed w-full truncate">
+              <div class="truncate">
+                {{ contact.phone }}
+              </div>
+            </div>
+          </td>
+          <td class="truncate hidden lg:table-cell">
+            <div class="table table-fixed w-full truncate">
+              <div class="truncate">
+                {{ contact.groupName }}
+              </div>
+            </div>
           </td>
         </tr>
-      </tbody>
+      </transition-group>
     </table>
-
-    <app-modal
-      v-show="activeContact"
-      mobile-full-screen
-      @close="activeContact = null"
-    />
+    <div v-if="!contacts.length" class="p-2 font-medium text-gray-900">
+      No contacts available
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapGetters } from 'vuex';
-import AppModal from '@/components/AppModal.vue';
+import { mapActions, mapGetters } from 'vuex';
 import { Contact } from '@/store/contacts/types';
+import AppImgLoader from '@/components/AppImgLoader.vue';
+import * as contactImgPlaceholder from '@/assets/img/contact-default-photo.png';
 
 export default Vue.extend({
   name: 'ContactsTable',
 
-  components: { AppModal },
+  components: { AppImgLoader },
 
   data() {
     return {
       activeContact: null as null | Contact,
+      contactImgPlaceholder,
     };
   },
 
@@ -60,18 +76,12 @@ export default Vue.extend({
     ...mapGetters('contacts', {
       contacts: 'filteredContacts',
     }),
-    ...mapGetters('groups', ['getGroupById']),
   },
 
   methods: {
+    ...mapActions('modals', ['showViewContactModal']),
     showDetails(contact: Contact) {
-      this.activeContact = contact;
-    },
-
-    getGroupName(groupId: string) {
-      const group = this.getGroupById(groupId);
-
-      return group ? group.name : groupId;
+      this.showViewContactModal(contact);
     },
   },
 });
@@ -85,5 +95,19 @@ td {
 
 th {
   @apply text-gray-700 font-medium;
+}
+
+tr {
+  transition: all 0.25s;
+}
+
+.table-fade-enter,
+.table-fade-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.table-fade-leave-active {
+  position: absolute;
 }
 </style>

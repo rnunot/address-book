@@ -1,0 +1,99 @@
+.app-input__input {
+  @apply bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full
+  py-2 px-4 text-gray-700 leading-tight;
+
+  transition: all 0.25s;
+
+  &:focus {
+    @apply outline-none bg-white border-purple-500;
+  }
+
+  &--has-error,
+  &--has-error:focus {
+    @apply border-red-500;
+  }
+}
+
+.app-input__label {
+  @apply block text-gray-700 font-bold mb-1;
+}
+
+.app-input__error {
+  @apply text-red-500;
+}
+
+.app__button {
+  &--offline {
+    @apply border-gray-500 text-gray-500;
+  }
+}
+
+.app__button {
+  @apply border-2 border-purple-900 shadow bg-purple-900 text-white font-medium py-2 px-4 rounded;
+
+  &:disabled {
+    @apply cursor-not-allowed;
+  }
+
+  &:hover:not(&--outline) {
+    @apply bg-purple-800 border-purple-800;
+  }
+
+  &:focus {
+    @apply shadow-outline outline-none;
+  }
+
+  &--outline {
+    @apply bg-white text-purple-900;
+
+    &:hover {
+      @apply bg-purple-900 text-white;
+    }
+  }
+
+  &--sm {
+    @apply py-1;
+  }
+}
+
+/* purgecss start ignore */
+.dg-main-content {
+  @apply rounded;
+}
+
+.dg-btn {
+  @apply border-2 py-1 px-4 rounded font-medium shadow;
+
+  &:focus {
+    @apply shadow-outline outline-none;
+  }
+}
+
+.dg-content-cont--floating {
+  top: calc(50% - 85px);
+}
+
+.dg-btn--ok,
+.dg-btn--cancel {
+  @apply border-purple-900 bg-purple-900 text-white;
+
+  &:hover {
+    @apply bg-purple-800 border-purple-800;
+  }
+}
+
+.delete-modal {
+  .dg-btn--ok {
+    @apply border-red-600 bg-white text-red-600;
+
+    &:hover {
+      @apply bg-red-600 text-white;
+    }
+  }
+}
+
+/* purgecss end ignore */
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}

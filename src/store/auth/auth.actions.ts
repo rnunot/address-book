@@ -6,14 +6,20 @@ import addressBookService from '@/services/addressBook.service';
 
 const sessionKey = 'address-book-session';
 
-export default {
-  register(context, { username, password }) {
-    return addressBookService.create(username, password);
+const actions: ActionTree<AuthState, RootState> = {
+  async register({ dispatch }, { username, password }) {
+    const addressBook = await addressBookService.create(username, password);
+
+    dispatch('saveSession', addressBook);
   },
 
-  async login({ commit, dispatch }, { username, password }) {
+  async login({ dispatch }, { username, password }) {
     const addressBook = await addressBookService.login(username, password);
 
+    dispatch('saveSession', addressBook);
+  },
+
+  saveSession({ commit, dispatch }, addressBook) {
     const session = {
       id: addressBook.id,
       username: addressBook.username,
@@ -26,6 +32,14 @@ export default {
     dispatch('groups/storeGroups', addressBook.groups, { root: true });
   },
 
+  async refreshData({ getters, dispatch }) {
+    const addressBook = await addressBookService.getById(getters.addressBookId);
+    await dispatch('contacts/storeContacts', addressBook.contacts, {
+      root: true,
+    });
+    await dispatch('groups/storeGroups', addressBook.groups, { root: true });
+  },
+
   logout({ commit }) {
     commit('setSession', undefined);
     localStorage.removeItem(sessionKey);
@@ -33,14 +47,31 @@ export default {
     router.push('/login');
   },
 
+  async changePassword({ getters }, { oldPassword, newPassword }) {
+    return await addressBookService.updatePassword(
+      getters.addressBookId,
+      getters.username,
+      oldPassword,
+      newPassword,
+    );
+  },
+
+  async deleteAddressBook({ dispatch, getters }) {
+    await addressBookService.delete(getters.addressBookId);
+    dispatch('logout');
+  },
+
   init: {
     root: true,
-    handler({ commit }) {
+    handler({ commit, dispatch }) {
       const session = JSON.parse(localStorage.getItem(sessionKey) || 'null');
 
       if (session) {
         commit('setSession', session);
+        dispatch('refreshData');
       }
     },
   },
-} as ActionTree<AuthState, RootState>;
+};
+
+export default actions;
