@@ -2,6 +2,8 @@
 
 A simple app to manage an address book, written in Vue and typescript
 
+https://adoring-jang-d872dd.netlify.com/
+
 Features:
 - Account management
   * Sign up
