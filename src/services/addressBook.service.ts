@@ -16,8 +16,8 @@ class AddressBookService {
     return api.get('/');
   }
 
-  public getById(id: string): Promise<AddressBook> {
-    return api.get(id);
+  public getById(id: number): Promise<AddressBook> {
+    return api.get(`/${id}`);
   }
 
   public async login(username: string, password: string): Promise<AddressBook> {
@@ -35,7 +35,7 @@ class AddressBookService {
   }
 
   public async updatePassword(
-    id: string,
+    id: number,
     username: string,
     oldPassword: string,
     newPassword: string,
@@ -46,11 +46,11 @@ class AddressBookService {
       throw new Error('Wrong old password');
     }
 
-    return api.put(id, { id, username, password: newPassword });
+    return api.put(`/${id}`, { id, username, password: newPassword });
   }
 
-  public delete(id: string) {
-    return api.delete(id);
+  public delete(id: number) {
+    return api.delete(`/${id}`);
   }
 }
 

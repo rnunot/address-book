@@ -1,6 +1,6 @@
 export interface AddressBookSession {
   username: string;
-  id: string;
+  id: number;
 }
 
 export interface AuthState {
