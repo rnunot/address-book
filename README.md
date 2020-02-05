@@ -21,6 +21,7 @@ Features:
   * Update
   * Delete
 - PWA support
+- Optimistic UI
 - Available offline in read only mode
 
 
